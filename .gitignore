@@ -1,0 +1,5 @@
+.vs/
+GDBrowser/obj/
+GDBrowser/bin/
+GDBrowser.Tests/bin/
+GDBrowser.Tests/obj/
