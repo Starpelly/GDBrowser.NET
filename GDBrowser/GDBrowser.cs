@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 using GDBrowser.Models.Profile;
 using GDBrowser.Models.Level;
+using GDBrowser.Models.Leaderboard;
 
 namespace GDBrowser
 {
@@ -37,6 +38,25 @@ namespace GDBrowser
         protected virtual string GetProfileURL(string username)
         {
             return $"{ApiRootURL}/api/profile/{username}";
+        }
+
+        protected virtual string GetLeaderboardURL(bool creator, int count = 100)
+        {
+            string result;
+            if (creator)
+                result = $"{ApiRootURL}/api/leaderboard?creator";
+            else
+                 result = $"{ApiRootURL}/api/leaderboard";
+
+            if (count != 100)
+                 result += $"&count={count}";
+
+            return result;
+        }
+
+        protected virtual string GetSongVerifyURL(int id)
+        {
+            return $"{ApiRootURL}/api/song/{id}";
         }
 
         #endregion
@@ -74,6 +94,27 @@ namespace GDBrowser
         {
             var url = GetProfileURL(username);
             return GetData<Profile>(url);
+        }
+
+        /// <summary>
+        /// Returns data about the global leaderboard.
+        /// </summary>
+        /// <param name="creator">Creator Leaderboard?</param>
+        /// <param name="count">How many profiles you want to show.</param>
+        public virtual Task<Leaderboard> GetLeaderboardAsync(bool creator, int count = 100)
+        {
+            var url = GetLeaderboardURL(creator, count);
+            return GetData<Leaderboard>(url);
+        }
+
+        /// <summary>
+        /// Returns true or false whether or not the song is available for use. 
+        /// </summary>
+        /// <param name="id">The song ID (on Newgrounds)</param>
+        public virtual Task<bool> GetSongVerificationAsync(int id)
+        {
+            var url = GetSongVerifyURL(id);
+            return GetData<bool>(url);
         }
 
         #endregion

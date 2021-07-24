@@ -19,5 +19,10 @@ class Program
         var result = await gd.GetProfileAsync("Starpelly");
         Assert.AreEqual(149, result.Coins); // will return an error if not the same.
         Console.WriteLine(result.Stars);
+
+        var boole = await gd.GetSongVerificationAsync(1);
+
+        Console.WriteLine(boole);
+
     }
 }
