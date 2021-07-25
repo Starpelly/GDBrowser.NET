@@ -74,6 +74,19 @@ namespace GDBrowser
             }
         }
 
+        protected virtual async Task<List<TOutput>> GetListData<TOutput>(string rootURL)
+        {
+            try
+            {
+                var json = await _client.GetStringAsync(rootURL);
+                return JsonConvert.DeserializeObject<List<TOutput>>(json);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #region Async Functions
 
         /// <summary>
@@ -101,10 +114,10 @@ namespace GDBrowser
         /// </summary>
         /// <param name="creator">Creator Leaderboard?</param>
         /// <param name="count">How many profiles you want to show.</param>
-        public virtual Task<Leaderboard> GetLeaderboardAsync(bool creator, int count = 100)
+        public virtual Task<List<Leaderboard>> GetLeaderboardAsync(bool creator, int count = 100)
         {
             var url = GetLeaderboardURL(creator, count);
-            return GetData<Leaderboard>(url);
+            return GetListData<Leaderboard>(url);
         }
 
         /// <summary>

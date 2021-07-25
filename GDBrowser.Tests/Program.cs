@@ -16,13 +16,7 @@ class Program
     static async void Test()
     {
         GDBrowserClient gd = new GDBrowserClient();
-        var result = await gd.GetProfileAsync("Starpelly");
-        Assert.AreEqual(149, result.Coins); // will return an error if not the same.
-        Console.WriteLine(result.Stars);
-
-        var boole = await gd.GetSongVerificationAsync(1);
-
-        Console.WriteLine(boole);
-
+        var test = await gd.GetLeaderboardAsync(false);
+        Console.WriteLine(test[0].Icon.Colour1);
     }
 }
