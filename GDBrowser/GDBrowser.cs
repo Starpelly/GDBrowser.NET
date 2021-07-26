@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using GDBrowser.Models.Profile;
 using GDBrowser.Models.Level;
 using GDBrowser.Models.Leaderboard;
+using GDBrowser.Models.MapPacks;
+using GDBrowser.Models.Gauntlets;
 
 namespace GDBrowser
 {
@@ -40,6 +42,11 @@ namespace GDBrowser
             return $"{ApiRootURL}/api/profile/{username}";
         }
 
+        protected virtual string GetSearchURL()
+        {
+            return $"{ApiRootURL}/api/search/";
+        }
+
         protected virtual string GetLeaderboardURL(bool creator, int count = 100)
         {
             string result;
@@ -52,6 +59,16 @@ namespace GDBrowser
                  result += $"&count={count}";
 
             return result;
+        }
+
+        protected virtual string GetMapPacksURL()
+        {
+            return $"{ApiRootURL}/api/mappacks";
+        }
+
+        protected virtual string GetGauntletsURL()
+        {
+            return $"{ApiRootURL}/api/gauntlets";
         }
 
         protected virtual string GetSongVerifyURL(int id)
@@ -109,15 +126,35 @@ namespace GDBrowser
             return GetData<Profile>(url);
         }
 
+
+
         /// <summary>
         /// Returns data about the global leaderboard.
         /// </summary>
         /// <param name="creator">Creator Leaderboard?</param>
-        /// <param name="count">How many profiles you want to show.</param>
+        /// <param name="count">How many profiles you want to show. (remember, arrays still start from 0, you will not imagine how stupid I looked trying to figure out why 249 returned the 250th profile)</param>
         public virtual Task<List<Leaderboard>> GetLeaderboardAsync(bool creator, int count = 100)
         {
             var url = GetLeaderboardURL(creator, count);
             return GetListData<Leaderboard>(url);
+        }
+
+        /// <summary>
+        /// Returns an array with all the current map packs in the game. (No parameters)
+        /// </summary>
+        public virtual Task<List<MapPacks>> GetMapPacksAsync()
+        {
+            var url = GetMapPacksURL();
+            return GetListData<MapPacks>(url);
+        }
+
+        /// <summary>
+        /// Returns an array with all the current gauntlets in the game. (No parameters)
+        /// </summary>
+        public virtual Task<List<Gauntlets>> GetGauntletsAsync()
+        {
+            var url = GetGauntletsURL();
+            return GetListData<Gauntlets>(url);
         }
 
         /// <summary>

@@ -15,8 +15,18 @@ class Program
 
     static async void Test()
     {
-        GDBrowserClient gd = new GDBrowserClient();
-        var test = await gd.GetLeaderboardAsync(false);
-        Console.WriteLine(test[0].Icon.Colour1);
+        var client = new GDBrowserClient();
+        // https://gdbrowser.com/api/mappacks
+        var mappack = await client.GetMapPacksAsync();
+
+        // https://gdbrowser.com/api/gauntlets
+        var gauntlet = await client.GetGauntletsAsync();
+
+        // Result: Alpha Pack
+        Console.WriteLine(mappack[0].Name);
+        Console.WriteLine();
+
+        for (int i = 0; i < gauntlet.Count; i++)
+            Console.WriteLine(gauntlet[i].Name); // Result: A list with all the current gauntlet names in the game
     }
 }

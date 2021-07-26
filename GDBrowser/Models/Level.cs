@@ -115,5 +115,11 @@ namespace GDBrowser.Models.Level
 
         [JsonProperty("songLink")]
         public string SongLink { get; set; }
+
+        [JsonProperty("results")]
+        public int Results { get; set; }
+
+        [JsonProperty("pages")]
+        public int Pages { get; set; }
     }
 }
