@@ -26,7 +26,7 @@ namespace GDBrowser
 
         #region Urls
 
-        protected virtual string ApiRootURL => "https://gdbrowser.com";
+        protected string ApiRootURL = "https://gdbrowser.com";
 
         #endregion
 
@@ -42,9 +42,19 @@ namespace GDBrowser
             return $"{ApiRootURL}/api/profile/{username}";
         }
 
-        protected virtual string GetSearchURL()
+        // Dont try using this, its not done yet.
+        protected virtual string GetSearchURL(int count, int[] diff, int demonFilter, int page, int gauntlet, int[] length, int songID)
         {
-            return $"{ApiRootURL}/api/search/";
+            string baseURL = $"{ApiRootURL}/api/search";
+            string finalURL = baseURL;
+            if (count > 0)
+                finalURL += $"?count={count}";
+            if (diff != null)
+                finalURL += $"?count={diff}";
+            if (demonFilter != 0)
+                finalURL += $"&demonFilter={demonFilter}";
+
+            return finalURL;
         }
 
         protected virtual string GetLeaderboardURL(bool creator, int count = 100)
@@ -69,6 +79,11 @@ namespace GDBrowser
         protected virtual string GetGauntletsURL()
         {
             return $"{ApiRootURL}/api/gauntlets";
+        }
+
+        protected virtual string GetAnalysisURL(int id)
+        {
+            return $"{ApiRootURL}/api/analyze/{id}";
         }
 
         protected virtual string GetSongVerifyURL(int id)
@@ -106,6 +121,11 @@ namespace GDBrowser
 
         #region Async Functions
 
+        public virtual void SetAPIRootUrl(string url)
+        {
+            ApiRootURL = url;
+        }
+
         /// <summary>
         /// Returns data about a level. 
         /// </summary>
@@ -123,10 +143,15 @@ namespace GDBrowser
         public virtual Task<Profile> GetProfileAsync(string username)
         {
             var url = GetProfileURL(username);
+            Console.WriteLine(url);
             return GetData<Profile>(url);
         }
 
-
+        public virtual Task<List<Level>> GetSearchAsync(int count, int[] diff, int demonFilter)
+        {
+            var url = GetSearchURL(count, diff, demonFilter, 0, 0, null, 0);
+            return GetListData<Level>(url);
+        }
 
         /// <summary>
         /// Returns data about the global leaderboard.
@@ -155,6 +180,12 @@ namespace GDBrowser
         {
             var url = GetGauntletsURL();
             return GetListData<Gauntlets>(url);
+        }
+
+        public virtual Task<GDBrowser.Models.Analysis.Analysis> GetLevelAnalysisAsync(int id)
+        {
+            var url = GetAnalysisURL(id);
+            return GetData<GDBrowser.Models.Analysis.Analysis>(url);
         }
 
         /// <summary>

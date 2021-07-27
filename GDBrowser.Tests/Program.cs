@@ -16,17 +16,9 @@ class Program
     static async void Test()
     {
         var client = new GDBrowserClient();
-        // https://gdbrowser.com/api/mappacks
-        var mappack = await client.GetMapPacksAsync();
+        client.SetAPIRootUrl("http://localhost:2000"); // eg. https://gdbrowser.com, used to set a custom api root url
 
-        // https://gdbrowser.com/api/gauntlets
-        var gauntlet = await client.GetGauntletsAsync();
-
-        // Result: Alpha Pack
-        Console.WriteLine(mappack[0].Name);
-        Console.WriteLine();
-
-        for (int i = 0; i < gauntlet.Count; i++)
-            Console.WriteLine(gauntlet[i].Name); // Result: A list with all the current gauntlet names in the game
+        var analysis = await client.GetLevelAnalysisAsync(58079690); // Object ID's by Colon
+        Console.WriteLine(analysis.DataLength); // Result: 128745
     }
 }

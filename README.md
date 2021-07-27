@@ -54,5 +54,17 @@ Console.WriteLine(mappack[0].Name);
 Console.WriteLine();
 
 for (int i = 0; i < gauntlet.Count; i++)
-Console.WriteLine(gauntlet[i].Name); // Result: A list with all the current gauntlet names in the game
+	Console.WriteLine(gauntlet[i].Name); // Result: A list with all the current gauntlet names in the game
+```
+
+Level Analysis (only works on custom or local servers atm)
+
+Since level analysis wont work on gdbrowser.net, this function will only work by setting a custom api root url.
+
+```CSharp
+var client = new GDBrowserClient();
+client.SetAPIRootUrl("http://localhost:2000"); // eg. https://gdbrowser.com, used to set a custom api root url
+
+var analysis = await client.GetLevelAnalysisAsync(58079690); // Object ID's by Colon
+Console.WriteLine(analysis.DataLength); // Result: 128745
 ```
