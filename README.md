@@ -59,11 +59,11 @@ for (int i = 0; i < gauntlet.Count; i++)
 
 Level Analysis (only works on custom or local servers atm)
 
-Since level analysis wont work on gdbrowser.net, this function will only work by setting a custom api root url.
+Since level analysis wont work on gdbrowser.com, this function will only work by setting a custom api root url.
 
 ```CSharp
 var client = new GDBrowserClient();
-client.SetAPIRootUrl("http://localhost:2000"); // eg. https://gdbrowser.com, used to set a custom api root url
+client.SetAPIRootUrl("http://localhost:2000"); // eg. https://gdbrowser.com, used to set a custom api root url, you can run it locally by forking the gdbrowser github repo and running it locally.
 
 var analysis = await client.GetLevelAnalysisAsync(58079690); // Object ID's by Colon
 Console.WriteLine(analysis.DataLength); // Result: 128745
